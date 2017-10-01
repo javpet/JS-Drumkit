@@ -61,23 +61,24 @@
       <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-    window.addEventListener("keydown", function(e) {
-        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-        if(!audio) return; // if audio is not presented, just stop playing
-        audio.currentTime = 0; // return to 0 to hit the button multiple times
-        audio.play();
-        key.classList.add("playing"); // similar to jQuery addClass()
-    });
+window.addEventListener("keydown", function(e) {
+	const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); // We only look for one key so we use queryselector
+	const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+	if (!audio) return; // if audio is not presented, just stop playing
+	audio.currentTime = 0; // rewind to 0, so we can play the audio multiple times
+	audio.play();
+	key.classList.add("playing"); // similar to jQuery addClass()
+});
 
-    function removeTransition(e) {
-        if(e.propertyName !== "transform") return; // We only want to select with transform
-        // console.log(e.propertyName);
-        this.classList.remove("playing");
-    }
+function removeTransition(e) {
+	if (e.propertyName !== "transform") return; // We only want to select with the key ended the scale transform
+	// console.log(e.propertyName);
+	this.classList.remove("playing");
+}
 
-    const keys = document.querySelectorAll(".key");
-    keys.forEach(key => key.addEventListener("transitionend", removeTransition));
+const keys = document.querySelectorAll(".key");
+keys.forEach(key => key.addEventListener("transitionend", removeTransition));
+//MDN reference: https://developer.mozilla.org/en-US/docs/Web/Events/transitionend
 </script>
 
 
